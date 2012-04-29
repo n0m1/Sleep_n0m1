@@ -61,7 +61,7 @@ void Sleep::calibrateTime(unsigned long sleepTime, boolean &abortCycle) {
   // timer0 continues to run in idle sleep mode
   set_sleep_mode(SLEEP_MODE_IDLE);
   long tt1=millis();
-  sleepNow(sleepTime,abortCycle);
+  sleepWDT(sleepTime,abortCycle);
   long tt2=millis();
 
   calibv = (float) sleepTime/(tt2-tt1);
@@ -77,6 +77,24 @@ void Sleep::calibrateTime(unsigned long sleepTime, boolean &abortCycle) {
 unsigned long Sleep::WDTMillis() {
   return millis()+timeSleep;
 }
+
+/********************************************************************
+*
+*	sleepNow
+*
+********************************************************************/
+void Sleep::sleepInterrupt(int interrupt,int mode) {
+
+	set_sleep_mode(sleepMode_);
+	sleep_enable();
+	attachInterrupt(interrupt,sleepHandler,mode);
+	sei(); //make sure interrupts are on!
+	sleep_mode();
+	 //----------------------------- ZZZZZZ sleeping here----------------------
+	sleep_disable(); //disable sleep, awake now
+	detachInterrupt(interrupt);
+}
+
 
 /********************************************************************
 *
@@ -96,7 +114,7 @@ void Sleep::sleepDelay(unsigned long sleepTime, boolean &abortCycle) {
   else
   {
   	set_sleep_mode(sleepMode_);
-  	int trem = sleepNow(sleepTime*calibv,abortCycle); 
+  	int trem = sleepWDT(sleepTime*calibv,abortCycle); 
   	timeSleep += (sleepTime-trem);
   }
   // PRR = 0x00; //modules on
@@ -106,10 +124,10 @@ void Sleep::sleepDelay(unsigned long sleepTime, boolean &abortCycle) {
 
 /********************************************************************
 *
-*	sleepNow
+*	sleepWDT
 *
 ********************************************************************/
-int Sleep::sleepNow(unsigned long remainTime, boolean &abortCycle) {
+int Sleep::sleepWDT(unsigned long remainTime, boolean &abortCycle) {
   
    #if defined(WDP3)
  	 byte WDTps = 9;  // WDT Prescaler value, 9 = 8192ms
@@ -181,6 +199,16 @@ void Sleep::WDT_Off() {
   sei();
 }
 
+/********************************************************************
+*
+*	sleepHandler ISR
+*
+********************************************************************/
+void sleepHandler(void)
+{
+	
+	
+}
 
 /********************************************************************
 *

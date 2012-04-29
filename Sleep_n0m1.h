@@ -40,12 +40,14 @@
 #endif
 
 extern "C" void WDT_vect(void) __attribute__ ((signal));
+extern "C" void sleepHandler(void) __attribute__ ((signal)); 
 
 class Sleep {
 
 public:
 	
 	friend void WDT_vect(void);
+	friend void sleepHandler(void);
 
 Sleep();
   
@@ -65,9 +67,13 @@ Sleep();
 	void standbyMode(){setSleepMode(SLEEP_MODE_STANDBY);}
 	void pwrDownMode(){setSleepMode(SLEEP_MODE_PWR_DOWN);}
 
+	//WatchDog Sleep Functions: Sleep for a specfic length of time
 	void sleepDelay(unsigned long sleepTime,boolean &abortCycle);
 	void setCalibrationInterval(int interval){ sleepCycleInterval = interval; }
-
+	
+	//Interrupt Sleep Function: Sleep till something interrupts sleep
+	void sleepInterrupt(int interrupt,int mode);
+	
 	
    
   
@@ -86,7 +92,7 @@ private:
    void setSleepMode(int mode);
    void WDT_Off();
    void WDT_On(byte psMask);
-   int sleepNow(unsigned long remainTime,boolean &abortCycle);
+   int sleepWDT(unsigned long remainTime,boolean &abortCycle);
    void calibrateTime(unsigned long sleepTime,boolean &abortCycle); //calibrate the time keeping difference between WDT and Timer0
    unsigned long WDTMillis();	// Estimated millis is real clock + calibrated sleep time
 
