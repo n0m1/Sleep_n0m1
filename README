@@ -65,4 +65,4 @@ Function: sleepInterrupt
 Description: set the Arduino into sleep mode until an interrupt is
 triggered. The interrupts are passed in as parameters
 Parameters: (int) interrupt value, 0, 1, etc, see attachinterrupt()
-	    (int) mode of trigger, RISING,FALLING,CHANGE
+	    (int) mode of trigger, LOW,RISING,FALLING,CHANGE
