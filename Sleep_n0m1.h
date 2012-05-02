@@ -68,6 +68,7 @@ Sleep();
 	void pwrDownMode(){setSleepMode(SLEEP_MODE_PWR_DOWN);}
 
 	//WatchDog Sleep Functions: Sleep for a specfic length of time
+	void sleepDelay(unsigned long sleepTime);
 	void sleepDelay(unsigned long sleepTime,boolean &abortCycle);
 	void setCalibrationInterval(int interval){ sleepCycleInterval = interval; }
 	

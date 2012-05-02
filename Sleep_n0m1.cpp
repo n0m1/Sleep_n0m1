@@ -85,6 +85,13 @@ unsigned long Sleep::WDTMillis() {
 ********************************************************************/
 void Sleep::sleepInterrupt(int interrupt,int mode) {
 
+	if(mode == FALLING || mode == LOW)
+	{
+	   int pin = interrupt + 2; //will fail on the mega	
+	   pinMode (pin, INPUT);
+	   digitalWrite (pin, HIGH);
+	}
+
 	set_sleep_mode(sleepMode_);
 	sleep_enable();
 	attachInterrupt(interrupt,sleepHandler,mode);
@@ -95,6 +102,18 @@ void Sleep::sleepInterrupt(int interrupt,int mode) {
 	detachInterrupt(interrupt);
 }
 
+
+/********************************************************************
+*
+*	sleepDelay
+*
+********************************************************************/
+void Sleep::sleepDelay(unsigned long sleepTime){
+	
+	boolean abortCycle = false; 
+	
+	sleepDelay(sleepTime,abortCycle);
+}
 
 /********************************************************************
 *
