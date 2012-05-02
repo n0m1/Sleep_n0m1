@@ -52,6 +52,11 @@ Function: sleepDelay
 Description: Works like the Arduino delay function, sets the
 Arduino into sleep mode for a specified time.
 Parameters: (unsigned long) time in ms of the sleep cycle
+------------------------------------------------------  
+Function: sleepDelay
+Description: Works like the Arduino delay function, sets the
+Arduino into sleep mode for a specified time.
+Parameters: (unsigned long) time in ms of the sleep cycle
             (boolean) prevents the Arduino from entering sleep
 ------------------------------------------------------
 Function: setCalibrationInterval
