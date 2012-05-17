@@ -165,9 +165,12 @@ int Sleep::sleepWDT(unsigned long remainTime, boolean &abortCycle) {
     WDT_On((WDTps & 0x08 ? (1<<WDP3) : 0x00) | (WDTps & 0x07));
     isrcalled=0;
     while (isrcalled==0 && abortCycle == false) {
+	
+	  #if defined(__AVR_ATmega328P__)
       // turn bod off
       MCUCR |= (1<<BODS) | (1<<BODSE);
       MCUCR &= ~(1<<BODSE);  // must be done right before sleep
+      #endif
       sleep_cpu();  // sleep here
     }
     // calculate remaining time
