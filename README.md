@@ -1,3 +1,4 @@
+```
 Name    : Sleep_n0m1 Library                         
 Author  : Noah Shibley, Michael Grant, NoMi Design Ltd. http://n0m1.com                       
 Date    : July 10th 2011                                    
@@ -11,11 +12,12 @@ Notes   : Arduino Library to place the arduino into sleep mode for
 			
 Dependencies:	
 	none
-	
+```	
 	
 			
 List of Functions:
 
+```
 Function: idleMode
 Description: sets the Arduino into idle Mode sleep, 
 the least power saving, The idle mode stops the MCU
@@ -71,3 +73,4 @@ Description: set the Arduino into sleep mode until an interrupt is
 triggered. The interrupts are passed in as parameters
 Parameters: (int) interrupt value, 0, 1, etc, see attachinterrupt()
 	    (int) mode of trigger, LOW,RISING,FALLING,CHANGE
+```	    
