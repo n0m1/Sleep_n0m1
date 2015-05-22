@@ -7,22 +7,18 @@
  * 	Notes   : Some of this code comes from "Cloudy" on the arduino forum
  *			  http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1292898715                   
  * 
- * 	Copyright (c) 2012 NoMi Design (http://n0m1.com) All right reserved.
- * 
- * 	This file is part of Triggertrap. See Triggertrap.com for more information.
- * 
- * 		    Triggertrap is free software: you can redistribute it and/or modify
+ * 		    Sleep_n0m1 is free software: you can redistribute it and/or modify
  * 		    it under the terms of the GNU General Public License as published by
  * 		    the Free Software Foundation, either version 3 of the License, or
  * 		    (at your option) any later version.
  * 
- * 		    Triggertrap is distributed in the hope that it will be useful,
+ * 		    Sleep_n0m1 is distributed in the hope that it will be useful,
  * 		    but WITHOUT ANY WARRANTY; without even the implied warranty of
  * 		    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * 		    GNU General Public License for more details.
  * 
  * 		    You should have received a copy of the GNU General Public License
- * 		    along with Triggertrap.  If not, see <http://www.gnu.org/licenses/>.
+ * 		    along with Sleep_n0m1.  If not, see <http://www.gnu.org/licenses/>.
  * 
  ***********************************************************************************/
 
@@ -100,10 +96,3 @@ private:
 };
 
 #endif
-
-
-
-
-
-
-
