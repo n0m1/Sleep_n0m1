@@ -192,10 +192,18 @@ void Sleep::WDT_On(byte psMask)
   wdt_reset();
   /* Clear WDRF in MCUSR */
   MCUSR &= ~(1<<WDRF);
-  // start timed sequence
-  WDTCSR |= (1<<WDCE) | (1<<WDE);
-  // set new watchdog timeout value
-  WDTCSR = ps;
+  
+  #if defined( __AVR_ATtiny25__ ) || defined( __AVR_ATtiny45__ ) || defined( __AVR_ATtiny85__ )
+    // start timed sequence
+    WDTCR |= (1<<WDCE) | (1<<WDE);
+    // set new watchdog timeout value
+    WDTCR = ps;
+  #else
+    // start timed sequence
+    WDTCSR |= (1<<WDCE) | (1<<WDE);
+    // set new watchdog timeout value
+    WDTCSR = ps;
+  #endif
   sei();
 }
 
@@ -209,11 +217,20 @@ void Sleep::WDT_Off() {
   wdt_reset();
   /* Clear WDRF in MCUSR */
   MCUSR &= ~(1<<WDRF);
-  /* Write logical one to WDCE and WDE */
-  /* Keep old prescaler setting to prevent unintentional time-out */
-  WDTCSR |= (1<<WDCE) | (1<<WDE);
-  /* Turn off WDT */
-  WDTCSR = 0x00;
+    
+  #if defined( __AVR_ATtiny25__ ) || defined( __AVR_ATtiny45__ ) || defined( __AVR_ATtiny85__ )
+    /* Write logical one to WDCE and WDE */
+    /* Keep old prescaler setting to prevent unintentional time-out */
+    WDTCR |= (1<<WDCE) | (1<<WDE);
+    /* Turn off WDT */
+    WDTCR = 0x00;
+  #else
+    /* Write logical one to WDCE and WDE */
+    /* Keep old prescaler setting to prevent unintentional time-out */
+    WDTCSR |= (1<<WDCE) | (1<<WDE);
+    /* Turn off WDT */
+    WDTCSR = 0x00;
+  #endif
   sei();
 }
 

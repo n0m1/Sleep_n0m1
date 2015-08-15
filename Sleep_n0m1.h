@@ -83,15 +83,19 @@ Sleep();
 	// Description: sets the Arduino into extStandby Mode sleep,
 	// This mode is identical to Power-save with the exception
 	// that the Oscillator is kept running for fast wake up
-	//------------------------------------------------------ 
+	//------------------------------------------------------
+    #if not defined( __AVR_ATtiny25__ ) && not defined( __AVR_ATtiny45__ ) && not defined( __AVR_ATtiny85__ )
 	void extStandbyMode(){setSleepMode(SLEEP_MODE_EXT_STANDBY);}
+    #endif
 	
 	//------------------------------------------------------
 	// Description: sets the Arduino into standby Mode sleep,
 	// This mode is identical to Power-down with the exception
 	// that the Oscillator is kept running for fast wake up
 	//------------------------------------------------------
+    #if not defined( __AVR_ATtiny25__ ) && not defined( __AVR_ATtiny45__ ) && not defined( __AVR_ATtiny85__ )
 	void standbyMode(){setSleepMode(SLEEP_MODE_STANDBY);}
+    #endif
 	
 	//------------------------------------------------------
 	// Description: sets the Arduino into power Down Mode sleep,
