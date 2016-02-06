@@ -1,0 +1,11 @@
+Sleep_n0m1	KEYWORD1
+Sleep	KEYWORD1
+idleMode	KEYWORD2
+adcMode	KEYWORD1
+pwrSaveMode	KEYWORD2
+extStandbyMode	KEYWORD2
+standbyMode	KEYWORD2
+pwrDownMode	KEYWORD2
+sleepDelay	KEYWORD2
+setCalibrationInterval	KEYWORD2
+sleepInterrupt	KEYWORD2
