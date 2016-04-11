@@ -11,6 +11,13 @@ Arduino Library to place the arduino into sleep mode for a specific length of ti
 #### Dependencies	
 * none
 
+#### Supported Devices
+
+* Uno - Tested
+* Leonardo - Tested
+* Mega - May have issues with sleepInterrupt(), not tested. 
+* Zero - Not supported
+* Due - Not supported
 
 #### List of Methods
 ```cpp	
