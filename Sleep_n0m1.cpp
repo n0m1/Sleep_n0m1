@@ -1,30 +1,30 @@
 /************************************************************************************
- * 	
- * 	Name    : Sleep_n0m1.h                        
- * 	Author  : Noah Shibley / NoMi Design                        
- * 	Date    : July 10th 2011                                    
- * 	Version : 0.1                                              
+ *
+ * 	Name    : Sleep_n0m1.h
+ * 	Author  : Noah Shibley / NoMi Design
+ * 	Date    : July 10th 2011
+ * 	Version : 0.1
  * 	Notes   : Some of this code comes from "Cloudy" on the arduino forum
- *			  http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1292898715                   
- * 
+ *			  http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1292898715
+ *
  * 		    Sleep_n0m1 is free software: you can redistribute it and/or modify
  * 		    it under the terms of the GNU General Public License as published by
  * 		    the Free Software Foundation, either version 3 of the License, or
  * 		    (at your option) any later version.
- * 
+ *
  * 		    Sleep_n0m1 is distributed in the hope that it will be useful,
  * 		    but WITHOUT ANY WARRANTY; without even the implied warranty of
  * 		    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * 		    GNU General Public License for more details.
- * 
+ *
  * 		    You should have received a copy of the GNU General Public License
  * 		    along with Sleep_n0m1.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  ***********************************************************************************/
 
 #include "Sleep_n0m1.h"
 
-Sleep* Sleep::pSleep = 0; 
+Sleep* Sleep::pSleep = 0;
 
 Sleep::Sleep()
 {
@@ -33,7 +33,7 @@ Sleep::Sleep()
 	calibv = 1.0; // ratio of real clock with WDT clock
 	byte isrcalled = 0;  // WDT vector flag
 	sleepCycleCount = 0;
-	sleepCycleInterval = 100; 
+	sleepCycleInterval = 100;
 
 }
 
@@ -61,7 +61,7 @@ void Sleep::calibrateTime(unsigned long sleepTime, boolean &abortCycle) {
   long tt2=millis();
 
   calibv = (float) sleepTime/(tt2-tt1);
-  
+
   //Serial.println(calibv);
 }
 
@@ -79,23 +79,24 @@ unsigned long Sleep::WDTMillis() {
 *	sleepNow
 *
 ********************************************************************/
-void Sleep::sleepInterrupt(int interrupt,int mode) {
+void Sleep::sleepInterrupt(int interruptPin,int mode) {
+
+	int intNum = digitalPinToInterrupt(interruptPin);
 
 	if(mode == FALLING || mode == LOW)
 	{
-	   int pin = interrupt + 2; //will fail on the mega	
-	   pinMode (pin, INPUT);
-	   digitalWrite (pin, HIGH);
+	   pinMode (interruptPin, INPUT);
+	   digitalWrite (interruptPin, HIGH);
 	}
 
 	set_sleep_mode(sleepMode_);
 	sleep_enable();
-	attachInterrupt(interrupt,sleepHandler,mode);
+	attachInterrupt(intNum,sleepHandler,mode);
 	sei(); //make sure interrupts are on!
 	sleep_mode();
 	 //----------------------------- ZZZZZZ sleeping here----------------------
 	sleep_disable(); //disable sleep, awake now
-	detachInterrupt(interrupt);
+	detachInterrupt(intNum);
 }
 
 
@@ -105,9 +106,9 @@ void Sleep::sleepInterrupt(int interrupt,int mode) {
 *
 ********************************************************************/
 void Sleep::sleepDelay(unsigned long sleepTime){
-	
-	boolean abortCycle = false; 
-	
+
+	boolean abortCycle = false;
+
 	sleepDelay(sleepTime,abortCycle);
 }
 
@@ -119,7 +120,7 @@ void Sleep::sleepDelay(unsigned long sleepTime){
 void Sleep::sleepDelay(unsigned long sleepTime, boolean &abortCycle) {
   ADCSRA &= ~(1<<ADEN);  // adc off
    // PRR = 0xEF; // modules off
-  
+
   ++sleepCycleCount;
   sleepCycleCount = sleepCycleCount % sleepCycleInterval; //recalibrate every interval cycles
   if(sleepCycleCount == 1)
@@ -129,7 +130,7 @@ void Sleep::sleepDelay(unsigned long sleepTime, boolean &abortCycle) {
   else
   {
   	set_sleep_mode(sleepMode_);
-  	int trem = sleepWDT(sleepTime*calibv,abortCycle); 
+  	int trem = sleepWDT(sleepTime*calibv,abortCycle);
   	timeSleep += (sleepTime-trem);
   }
   // PRR = 0x00; //modules on
@@ -143,13 +144,13 @@ void Sleep::sleepDelay(unsigned long sleepTime, boolean &abortCycle) {
 *
 ********************************************************************/
 int Sleep::sleepWDT(unsigned long remainTime, boolean &abortCycle) {
-  
+
    #if defined(WDP3)
  	 byte WDTps = 9;  // WDT Prescaler value, 9 = 8192ms
    #else
  	 byte WDTps = 7;  // WDT Prescaler value, 7 = 2048ms
-   #endif	
-	
+   #endif
+
   isrcalled = 0;
   sleep_enable();
   while(remainTime > 0) {
@@ -161,7 +162,7 @@ int Sleep::sleepWDT(unsigned long remainTime, boolean &abortCycle) {
     WDT_On((WDTps & 0x08 ? (1<<WDP3) : 0x00) | (WDTps & 0x07));
     isrcalled=0;
     while (isrcalled==0 && abortCycle == false) {
-	
+
 	  #if defined(__AVR_ATmega328P__)
       // turn bod off
       MCUCR |= (1<<BODS) | (1<<BODSE);
@@ -172,7 +173,7 @@ int Sleep::sleepWDT(unsigned long remainTime, boolean &abortCycle) {
     // calculate remaining time
     remainTime -= (0x10<<WDTps);
 	if ((long) remainTime < 0 ) {remainTime = 0;} //check for unsigned underflow, by converting to signed
-	
+
   }
   sleep_disable();
   return remainTime;
@@ -224,8 +225,8 @@ void Sleep::WDT_Off() {
 ********************************************************************/
 void sleepHandler(void)
 {
-	
-	
+
+
 }
 
 /********************************************************************
