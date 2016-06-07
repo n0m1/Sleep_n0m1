@@ -94,10 +94,10 @@ void setCalibrationInterval(int interval);
 
 //------------------------------------------------------
 // Description: set the Arduino into sleep mode until an interrupt is
-// triggered. The interrupts are passed in as parameters
-// Parameters: (int) interrupt value, 0, 1, etc, see attachinterrupt()
-//	    (int) mode of trigger, LOW,RISING,FALLING,CHANGE
+// triggered. The interrupt pin is passed in as parameter
+// Parameters: (int) interrupt pin value, 2, 3, etc, see attachinterrupt()
+//      (int) mode of trigger, LOW,RISING,FALLING,CHANGE
 //------------------------------------------------------
-void sleepInterrupt(int interrupt,int mode);
+void sleepInterrupt(int interruptPin,int mode);
 
 ```	    
