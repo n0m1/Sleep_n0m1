@@ -107,6 +107,6 @@ void sleepPinInterrupt(int interruptPin,int mode);
 // Parameters: (int) interrupt value, 0, 1, etc, see attachinterrupt()
 //      (int) mode of trigger, HIGH,LOW,RISING,CHANGE
 //------------------------------------------------------
-void sleepInterrupt(int interruptPin,int mode);
+void sleepInterrupt(int interrupt,int mode);
 
 ```	    
