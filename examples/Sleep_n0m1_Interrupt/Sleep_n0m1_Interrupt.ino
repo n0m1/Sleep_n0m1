@@ -25,8 +25,8 @@ void loop()
   sleep.pwrDownMode(); //set sleep mode
 
   //Sleep till interrupt pin equals a particular state.
-  //In this case "falling" change from 1 to 0.
-  sleep.sleepInterrupt(intPin,FALLING); //(interrupt Pin Number, interrupt State)
+  //In this case "low" is state 0.
+  sleep.sleepPinInterrupt(intPin,LOW); //(interrupt Pin Number, interrupt State)
 
 
 

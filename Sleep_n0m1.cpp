@@ -76,10 +76,34 @@ unsigned long Sleep::WDTMillis() {
 
 /********************************************************************
 *
-*	sleepNow
+*	sleepInterrupt [Deprecated]
 *
 ********************************************************************/
-void Sleep::sleepInterrupt(int interruptPin,int mode) {
+void Sleep::sleepInterrupt(int interrupt,int mode) {
+
+	if(mode == FALLING || mode == LOW)
+	{
+	   int pin = interrupt + 2; //will fail on the mega
+	   pinMode (pin, INPUT);
+	   digitalWrite (pin, HIGH);
+	}
+
+	set_sleep_mode(sleepMode_);
+	sleep_enable();
+	attachInterrupt(interrupt,sleepHandler,mode);
+	sei(); //make sure interrupts are on!
+	sleep_mode();
+	 //----------------------------- ZZZZZZ sleeping here----------------------
+	sleep_disable(); //disable sleep, awake now
+	detachInterrupt(interrupt);
+}
+
+/********************************************************************
+*
+*	sleepPinInterrupt
+*
+********************************************************************/
+void Sleep::sleepPinInterrupt(int interruptPin,int mode) {
 
 	int intNum = digitalPinToInterrupt(interruptPin);
 
