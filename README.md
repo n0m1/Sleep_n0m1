@@ -28,7 +28,7 @@ Arduino Library to place the arduino into sleep mode for a specific length of ti
 // Description: sets the Arduino into idle Mode sleep,
 // the least power saving, The idle mode stops the MCU
 // but leaves peripherals and timers running.
-------------------------------------------------------
+//------------------------------------------------------
 void idleMode();
 
 //------------------------------------------------------
