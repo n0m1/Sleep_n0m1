@@ -17,7 +17,7 @@ Arduino Library to place the arduino into sleep mode for a specific length of ti
 * Leonardo - Tested
 * Pro Mini - Tested
 * Nano - Tested
-* Mega - Not tested.
+* Mega - Tested
 * Zero - Not supported
 * Due - Not supported
 
